@@ -8,7 +8,7 @@
 
 class Card {
 public:
-    Card();
+    Card(); // test
     Card(string value, string suit);
     string to_string() const;
     string get_value();
