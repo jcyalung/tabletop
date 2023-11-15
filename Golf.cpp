@@ -97,6 +97,7 @@ Golf::Golf(int r, int c) {
 
     // pool starts with one card
     pool.push(remaining_cards.top()); remaining_cards.pop();
+    pool.top().flip();
 }
 
 /**
@@ -119,12 +120,15 @@ void Golf::check_cols(bool turn) {
             for(int row = 0; row < board1.size(); row++) {
 
                 // if row is at the top, set the value to the top value
-                if(row == 0) { value = board1[row][col].get_value(); }
+                if(row == 0) {
+                    value = board1[row][col].get_value();
+                    if(!board2[row][col].is_flipped()) { break; }
+                }
 
                 // otherwise, check if the value at index does not equal value
                 else {
                     // if so, values are not the same
-                    if(board1[row][col].get_value() != value) { same = false; }
+                    if(board1[row][col].get_value() != value || !board1[row][col].is_flipped()) { same = false; }
                 }
             }
             // if all values are the same, erase the column
@@ -147,12 +151,15 @@ void Golf::check_cols(bool turn) {
             for(int row = 0; row < board2.size(); row++) {
 
                 // if row is at the top, set the value to the top value
-                if(row == 0) { value = board2[row][col].get_value(); }
+                if(row == 0) {
+                    value = board2[row][col].get_value();
+                    if(!board2[row][col].is_flipped()) { break; }
+                }
 
                 // otherwise, check if the value at index does not equal value
                 else {
                     // if so, values are not the same
-                    if(board2[row][col].get_value() != value) { same = false; }
+                    if(board2[row][col].get_value() != value || !board2[row][col].is_flipped()) { same = false; }
                 }
             }
             // if all values are the same, erase the column
@@ -195,6 +202,7 @@ void Golf::display_board() {
 void Golf::draw_card() {
     if(!remaining_cards.empty()) {
         pool.push(remaining_cards.top()); remaining_cards.pop();
+        pool.top().flip();
     }
 }
 
@@ -209,4 +217,40 @@ void Golf::swap(int row_ind, int col_ind, bool turn) {
         pool.push(board2[row_ind][col_ind]);
         board2[row_ind][col_ind] = temp;
     }
+}
+
+void Golf::reveal_card() {
+    int row_ind, col_ind;
+    do {
+        cout << "Enter a row index and a column index to flip, followed by a space: " << endl;
+        cin >> row_ind;
+        cin >> col_ind;
+        cin.clear(); cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if(row_ind > r && row_ind < 0 && col_ind > c && col_ind < 0) {
+            cout << "Invalid input. Try again." << endl;
+        }
+    } while(row_ind > r && row_ind < 0 && col_ind < c && col_ind > 0);
+    // if player one's turn
+    if(turn) {
+        if(board1[row_ind][col_ind].is_flipped()) {
+            cout << "Already flipped. " << endl;
+            reveal_card();
+        }
+        else {
+            board1[row_ind][col_ind].flip();
+        }
+    }
+    else {
+        if(board2[row_ind][col_ind].is_flipped()) {
+            cout << "Already flipped. " << endl;
+            reveal_card();
+        }
+        else {
+            board2[row_ind][col_ind].flip();
+        }
+    }
+}
+
+void Golf::change_turn() {
+    turn = !turn;
 }

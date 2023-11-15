@@ -14,6 +14,8 @@ public:
     void check_cols(bool turn);
     void draw_card();
     void swap(int row_ind, int col_ind, bool turn);
+    void reveal_card();
+    void change_turn();
 private:
     int current_turn = 1;
     int r = 2, c = 3;

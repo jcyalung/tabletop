@@ -13,7 +13,10 @@ public:
     string to_string() const;
     string get_value();
     string get_suit();
+    bool is_flipped() const;
+    void flip();
 private:
+    bool flipped = false;
     string value;
     string suit;
 };

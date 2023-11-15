@@ -8,7 +8,8 @@ int main() {
     test.display_board();
     while(userInput != 'n') {
         cout << "d. Draw card" << endl
-             << "s. Swap card" << endl;
+             << "s. Swap card" << endl
+             << "r. Reveal card" << endl;
         cin >> userInput;
         if(userInput == 'd') {
             test.draw_card();
@@ -18,6 +19,9 @@ int main() {
             cout << "Enter the row index and col index, followed by a space: " << endl;
             cin >> row_ind >> col_ind;
             test.swap(row_ind,col_ind, true);
+        }
+        if(userInput == 'r') {
+            test.reveal_card();
         }
         test.check_cols(true);
         test.display_board();

@@ -12,7 +12,12 @@ Card::Card(string value, string suit) {
 }
 
 string Card::to_string() const {
-    return value + " of " + suit;
+    if(flipped) {
+        return value + " of " + suit;
+    }
+    else {
+        return "?";
+    }
 }
 
 string Card::get_value() {
@@ -21,4 +26,12 @@ string Card::get_value() {
 
 string Card::get_suit() {
     return suit;
+}
+
+bool Card::is_flipped() const {
+    return flipped;
+}
+
+void Card::flip() {
+    flipped = !flipped;
 }
