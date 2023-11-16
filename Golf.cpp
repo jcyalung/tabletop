@@ -124,7 +124,7 @@ void Golf::check_cols() {
                 // if row is at the top, set the value to the top value
                 if(row == 0) {
                     value = board1[row][col].get_value();
-                    if(!board2[row][col].is_flipped()) { same = false; }
+                    if(!board1[row][col].is_flipped()) { same = false; }
                 }
 
                 // otherwise, check if the value at index does not equal value
@@ -155,7 +155,7 @@ void Golf::check_cols() {
                 // if row is at the top, set the value to the top value
                 if(row == 0) {
                     value = board2[row][col].get_value();
-                    if(!board2[row][col].is_flipped()) { break; }
+                    if(!board2[row][col].is_flipped()) { same = false; }
                 }
 
                 // otherwise, check if the value at index does not equal value
@@ -195,6 +195,13 @@ void Golf::display_board() {
         cout << endl << endl;
     }
     cout << "Pool: " << pool.top().to_string() << endl;
+    cout << "Remaining cards: " << remaining_cards.size() << endl;
+    if(turn) {
+        cout << "Current turn: Player 1" << endl;
+    }
+    else {
+        cout << "Current turn: Player 2" << endl;
+    }
 
 }
 
@@ -206,6 +213,17 @@ void Golf::draw_card() {
         pool.push(remaining_cards.top()); remaining_cards.pop();
         pool.top().flip();
     }
+    char userInput;
+    do {
+        cout << "Would you like to swap? "
+                "\ny. yes"
+                "\nn. no" << endl;
+        cin >> userInput;
+        if(userInput != 'y' && userInput != 'n') {
+            cout << "Invalid input. Try again." << endl;
+        }
+    } while(userInput != 'y' && userInput != 'n');
+    if
 }
 
 void Golf::swap(int row_ind, int col_ind) {

@@ -24,6 +24,7 @@ int main() {
             test.reveal_card();
         }
         test.check_cols();
+        test.change_turn();
         test.display_board();
     }
     return 0;
