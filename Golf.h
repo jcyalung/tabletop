@@ -11,9 +11,9 @@ public:
     Golf();
     Golf(int r, int c);
     void display_board();
-    void check_cols(bool turn);
+    void check_cols();
     void draw_card();
-    void swap(int row_ind, int col_ind, bool turn);
+    void swap(int row_ind, int col_ind);
     void reveal_card();
     void change_turn();
 private:
@@ -21,6 +21,7 @@ private:
     int r = 2, c = 3;
     int player1_score = 0;
     int player2_score = 0;
+    int player1_flipped, player2_flipped;
     bool turn = true;
     vector<vector<Card>> board1;
     vector<vector<Card>> board2;

@@ -98,6 +98,8 @@ Golf::Golf(int r, int c) {
     // pool starts with one card
     pool.push(remaining_cards.top()); remaining_cards.pop();
     pool.top().flip();
+
+
 }
 
 /**
@@ -105,7 +107,7 @@ Golf::Golf(int r, int c) {
  * if so,
  * @param turn
  */
-void Golf::check_cols(bool turn) {
+void Golf::check_cols() {
     string value;
     bool same;
     // if player 1 turn, check player 1 board
@@ -122,7 +124,7 @@ void Golf::check_cols(bool turn) {
                 // if row is at the top, set the value to the top value
                 if(row == 0) {
                     value = board1[row][col].get_value();
-                    if(!board2[row][col].is_flipped()) { break; }
+                    if(!board2[row][col].is_flipped()) { same = false; }
                 }
 
                 // otherwise, check if the value at index does not equal value
@@ -206,7 +208,7 @@ void Golf::draw_card() {
     }
 }
 
-void Golf::swap(int row_ind, int col_ind, bool turn) {
+void Golf::swap(int row_ind, int col_ind) {
     Card temp = pool.top();
     pool.pop();
     if(turn) {
@@ -217,40 +219,51 @@ void Golf::swap(int row_ind, int col_ind, bool turn) {
         pool.push(board2[row_ind][col_ind]);
         board2[row_ind][col_ind] = temp;
     }
+    if(!pool.top().is_flipped()) {
+        pool.top().flip();
+    }
 }
 
 void Golf::reveal_card() {
-    int row_ind, col_ind;
+    int row_int, col_int;
+    char row_ind, col_ind;
     do {
         cout << "Enter a row index and a column index to flip, followed by a space: " << endl;
         cin >> row_ind;
         cin >> col_ind;
-        cin.clear(); cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        if(row_ind > r && row_ind < 0 && col_ind > c && col_ind < 0) {
+        row_int = row_ind - 48;
+        col_int = col_ind - 48;
+        if(row_int > r || row_int < 0 || col_int > c || col_int < 0) {
             cout << "Invalid input. Try again." << endl;
         }
-    } while(row_ind > r && row_ind < 0 && col_ind < c && col_ind > 0);
+    } while(row_int > r || row_int < 0 || col_int > c || col_int < 0);
     // if player one's turn
     if(turn) {
-        if(board1[row_ind][col_ind].is_flipped()) {
+        if(board1[row_int][col_int].is_flipped()) {
             cout << "Already flipped. " << endl;
             reveal_card();
         }
         else {
-            board1[row_ind][col_ind].flip();
+            board1[row_int][col_int].flip();
         }
     }
     else {
-        if(board2[row_ind][col_ind].is_flipped()) {
+        if(board2[row_int][col_int].is_flipped()) {
             cout << "Already flipped. " << endl;
             reveal_card();
         }
         else {
-            board2[row_ind][col_ind].flip();
+            board2[row_int][col_int].flip();
         }
     }
 }
 
 void Golf::change_turn() {
     turn = !turn;
+    if(turn) {
+        cout << "It is now player 1's turn." << endl;
+    }
+    else {
+        cout << "It is now player 2's turn." << endl;
+    }
 }

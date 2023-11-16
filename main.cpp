@@ -18,12 +18,12 @@ int main() {
             int row_ind, col_ind;
             cout << "Enter the row index and col index, followed by a space: " << endl;
             cin >> row_ind >> col_ind;
-            test.swap(row_ind,col_ind, true);
+            test.swap(row_ind,col_ind);
         }
         if(userInput == 'r') {
             test.reveal_card();
         }
-        test.check_cols(true);
+        test.check_cols();
         test.display_board();
     }
     return 0;
