@@ -28,6 +28,7 @@ protected:
             {"Queen", 12},
             {"King", 13}
     };
+    vector<Card> extended_deck;
 };
 
 

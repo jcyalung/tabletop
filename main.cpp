@@ -26,6 +26,9 @@ int main() {
         test.check_cols();
         test.change_turn();
         test.display_board();
+        if(test.check_hidden_remaining()) {
+            cout << "Hidden cards left!" << endl;
+        }
     }
     return 0;
 }

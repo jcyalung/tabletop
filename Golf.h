@@ -16,6 +16,7 @@ public:
     void swap(int row_ind, int col_ind);
     void reveal_card();
     void change_turn();
+    bool check_hidden_remaining() const;
 private:
     int current_turn = 1;
     int r = 2, c = 3;
