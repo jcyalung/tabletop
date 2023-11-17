@@ -6,7 +6,7 @@ int main() {
     Golf test(3,1);
     char userInput;
     test.display_board();
-    while(userInput != 'n') {
+    while(test.check_hidden_remaining()) {
         cout << "d. Draw card" << endl
              << "s. Swap card" << endl
              << "r. Reveal card" << endl;
@@ -26,9 +26,8 @@ int main() {
         test.check_cols();
         test.change_turn();
         test.display_board();
-        if(test.check_hidden_remaining()) {
-            cout << "Hidden cards left!" << endl;
-        }
     }
+    test.display_board();
+    test.check_score();
     return 0;
 }

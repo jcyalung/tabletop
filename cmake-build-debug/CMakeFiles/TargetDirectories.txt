@@ -1,3 +1,3 @@
-/Users/jcyalung/Documents/tabletop/cmake-build-debug/CMakeFiles/TableTop.dir
-/Users/jcyalung/Documents/tabletop/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/jcyalung/Documents/tabletop/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/jcyal/CLionProjects/TableTop/cmake-build-debug/CMakeFiles/TableTop.dir
+C:/Users/jcyal/CLionProjects/TableTop/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/jcyal/CLionProjects/TableTop/cmake-build-debug/CMakeFiles/rebuild_cache.dir

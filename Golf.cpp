@@ -17,13 +17,13 @@ Golf::Golf() {
     int index = 0;
 
     // for every row, place a new vector
-    for(int rows = 0; rows < r; rows++) {
+    for(int rows = 0; rows < r1; rows++) {
         board1.emplace_back();
         board2.emplace_back();
     }
     // now store cards
-    for(int row = 0; row < r; row++) {
-        for(int col = 0; col < c; col++) {
+    for(int row = 0; row < r1; row++) {
+        for(int col = 0; col < c1; col++) {
             board1[row].push_back(deck[++index]);
             board2[row].push_back(deck[++index]);
         }
@@ -36,6 +36,22 @@ Golf::Golf() {
 
     // pool always starts with one card
     pool.push(remaining_cards.top()); remaining_cards.pop();
+
+    card_value = {
+            {"Ace", 1},
+            {"Two", 2},
+            {"Three", 3},
+            {"Four", 4},
+            {"Five", 5},
+            {"Six", 6},
+            {"Seven", 7},
+            {"Eight", 8},
+            {"Nine", 9},
+            {"Ten", 10},
+            {"Jack", 11},
+            {"Queen", 12},
+            {"King", 0}
+    };
 }
 
 /**
@@ -69,8 +85,8 @@ Golf::Golf(int r, int c) {
     }
 
     // set num rows and num cols
-    this->r = r;
-    this->c = c;
+    r1 = r2 = r;
+    c1 = c2 = c;
 
     // shuffle the deck initially
     shuffle();
@@ -85,8 +101,8 @@ Golf::Golf(int r, int c) {
     // now store cards
     for(int row = 0; row < r; row++) {
         for(int col = 0; col < c; col++) {
-            board1[row].push_back(deck[++index]);
-            board2[row].push_back(deck[++index]);
+            board1[row].push_back(deck[index]); index++;
+            board2[row].push_back(deck[index]); index++;
         }
     }
 
@@ -99,7 +115,21 @@ Golf::Golf(int r, int c) {
     pool.push(remaining_cards.top()); remaining_cards.pop();
     pool.top().flip();
 
-
+    card_value = {
+            {"Ace", 1},
+            {"Two", 2},
+            {"Three", 3},
+            {"Four", 4},
+            {"Five", 5},
+            {"Six", 6},
+            {"Seven", 7},
+            {"Eight", 8},
+            {"Nine", 9},
+            {"Ten", 10},
+            {"Jack", 11},
+            {"Queen", 12},
+            {"King", 0}
+    };
 }
 
 /**
@@ -260,10 +290,23 @@ void Golf::reveal_card() {
         cin >> col_ind;
         row_int = row_ind - 48;
         col_int = col_ind - 48;
-        if(row_int > r || row_int < 0 || col_int > c || col_int < 0) {
-            cout << "Invalid input. Try again." << endl;
+        if(turn) {
+            if(row_int > r1 || row_int < 0 || col_int > c1 || col_int < 0) {
+                cout << "Invalid input. Try again." << endl;
+            }
+            else {
+                break;
+            }
         }
-    } while(row_int > r || row_int < 0 || col_int > c || col_int < 0);
+        else {
+            if(row_int > r2 || row_int < 0 || col_int > c2 || col_int < 0) {
+                cout << "Invalid input. Try again." << endl;
+            }
+            else {
+                break;
+            }
+        }
+    } while(row_int > r1 || row_int < 0 || col_int > c1 || col_int < 0);
     // if player one's turn
     if(turn) {
         if(board1[row_int][col_int].is_flipped()) {
@@ -317,6 +360,36 @@ bool Golf::check_hidden_remaining() const {
         }
         cout << "Hidden cards for player 1: " << player1_hiddens << endl;
         cout << "Hidden cards for player 2: " << player2_hiddens << endl;
-        return player1_hiddens != 0 || player2_hiddens != 0;
+        return player1_hiddens != 0 && player2_hiddens != 0;
+    }
+}
+
+void Golf::check_score() {
+    for(int row = 0; row < board1.size(); row++) {
+        for(int col = 0; col < board1[0].size(); col++) {
+            player1_score += card_value[board1[row][col].get_value()];
+            if(!board1[row][col].is_flipped()) {
+                board1[row][col].flip();
+            }
+        }
+    }
+    for(int row = 0; row < board2.size(); row++) {
+        for(int col = 0; col < board2[0].size(); col++) {
+            player2_score += card_value[board2[row][col].get_value()];
+            if(!board2[row][col].is_flipped()) {
+                board2[row][col].flip();
+            }
+        }
+    }
+    cout << "Player 1 score: " << player1_score << endl
+         << "Player 2 score: " << player2_score << endl;
+    if(player1_score < player2_score) {
+        cout << "Player 1 wins!" << endl;
+    }
+    else if(player1_score > player2_score) {
+        cout << "Player 2 wins!" << endl;
+    }
+    else {
+        cout << "It's a tie!" << endl;
     }
 }

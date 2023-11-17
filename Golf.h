@@ -17,9 +17,11 @@ public:
     void reveal_card();
     void change_turn();
     bool check_hidden_remaining() const;
+    void check_score();
 private:
     int current_turn = 1;
-    int r = 2, c = 3;
+    int r1 = 2, c1 = 3;
+    int r2 = 2, c2 = 3;
     int player1_score = 0;
     int player2_score = 0;
     int player1_flipped, player2_flipped;
@@ -28,6 +30,7 @@ private:
     vector<vector<Card>> board2;
     stack<Card> remaining_cards;
     stack<Card> pool;
+
 };
 
 
