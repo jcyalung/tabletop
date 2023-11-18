@@ -36,6 +36,7 @@ Golf::Golf() {
 
     // pool always starts with one card
     pool.push(remaining_cards.top()); remaining_cards.pop();
+    pool.top().flip();
 
     card_value = {
             {"Ace", 1},
@@ -346,20 +347,16 @@ bool Golf::check_hidden_remaining() const {
     else {
         player1_hiddens *= board1[0].size();
         player2_hiddens *= board2[0].size();
-        cout << "Max hidden cards for player 1: " << player1_hiddens << endl;
-        cout << "Max hidden cards for player 2: " << player2_hiddens << endl;
         for(int x = 0; x < board1.size(); x++) {
             for(int y = 0; y < board1[0].size(); y++) {
                 player1_hiddens -= board1[x][y].is_flipped();
             }
         }
         for(int x = 0; x < board2.size(); x++) {
-            for(int y = 0; y < board2[0].size(); y++) {
+            for (int y = 0; y < board2[0].size(); y++) {
                 player2_hiddens -= board2[x][y].is_flipped();
             }
         }
-        cout << "Hidden cards for player 1: " << player1_hiddens << endl;
-        cout << "Hidden cards for player 2: " << player2_hiddens << endl;
         return player1_hiddens != 0 && player2_hiddens != 0;
     }
 }
